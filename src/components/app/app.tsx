@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom';
+import history from '../../history';
 import { AppRoute } from '../../const';
 import MainPage from '../../pages/main-page/main-page';
 import ContactsPage from '../../pages/contacts-page/contacts-page';
@@ -7,7 +8,7 @@ import LoginPage from '../../pages/login-page/login-page';
 
 function App(): JSX.Element {
   return (
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       <Routes>
         <Route
           path={AppRoute.Root}
@@ -26,7 +27,7 @@ function App(): JSX.Element {
           element={<LoginPage />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
