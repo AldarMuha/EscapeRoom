@@ -16,3 +16,9 @@ export enum StoreSlice {
   SiteProcess = 'SITE_PROCESS',
   UserProcess = 'USER_PROCESS',
 }
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}

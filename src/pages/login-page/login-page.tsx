@@ -1,4 +1,20 @@
+import { FormEvent } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { UserAuth } from '../../types/types';
+import { loginUser } from '../../store/action';
+
 function LoginPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data: UserAuth = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+    };
+    dispatch(loginUser(data));
+  };
   return (
     <main className="decorated-page login">
       <div className="decorated-page__decor" aria-hidden="true">
@@ -22,6 +38,7 @@ function LoginPage(): JSX.Element {
             className="login-form"
             action="https://echo.htmlacademy.ru/"
             method="post"
+            onSubmit={onSubmitHandler}
           >
             <div className="login-form__inner-wrapper">
               <h1 className="title title--size-s login-form__title">Вход</h1>

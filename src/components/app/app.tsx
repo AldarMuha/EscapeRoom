@@ -5,6 +5,9 @@ import MainPage from '../../pages/main-page/main-page';
 import ContactsPage from '../../pages/contacts-page/contacts-page';
 import MyQuestsPage from '../../pages/my-quests-page/my-quests-page';
 import LoginPage from '../../pages/login-page/login-page';
+import QuestPage from '../../pages/quest-page/quest-page';
+import PrivateRoute from '../private-route/private-route';
+import BookingPage from '../../pages/booking-page/booking-page';
 
 function App(): JSX.Element {
   return (
@@ -15,12 +18,28 @@ function App(): JSX.Element {
           element={<MainPage />}
         />
         <Route
+          path={'quest/:id'}
+          element={<QuestPage />}
+        />
+        <Route
           path={AppRoute.Contacts}
           element={<ContactsPage />}
         />
         <Route
           path={AppRoute.MyQuests}
-          element={<MyQuestsPage />}
+          element={
+            <PrivateRoute>
+              <MyQuestsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={'quest/:id/booking'}
+          element={
+            <PrivateRoute>
+              <BookingPage />
+            </PrivateRoute>
+          }
         />
         <Route
           path={AppRoute.Login}

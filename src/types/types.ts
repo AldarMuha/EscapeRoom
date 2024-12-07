@@ -5,7 +5,7 @@ export type Quest = {
   previewImgWebp: string;
   level: 'easy' | 'medium' | 'hard';
   type: 'adventures' | 'horror' | 'mystic' | 'detective' | 'sci-fi';
-  peopleMinMax: [number];
+  peopleMinMax: [number, number];
 };
 
 export type QuestId = {
@@ -15,7 +15,7 @@ export type QuestId = {
   previewImgWebp: string;
   level: 'easy' | 'medium' | 'hard';
   type: 'adventures' | 'horror' | 'mystic' | 'detective' | 'sci-fi';
-  peopleMinMax: [number];
+  peopleMinMax: [number, number];
   description: string;
   coverImg: string;
   coverImgWebp: string;
@@ -47,7 +47,7 @@ export type NewBooking = {
   withChildren: boolean;
   peopleCount: number;
   placeId: string;
-};
+} & Pick<Quest, 'id'>;
 
 export type Booking = {
   date: 'today' | 'tomorrow';
