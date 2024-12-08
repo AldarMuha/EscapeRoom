@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getUserStatus } from '../../store/user-process/selectors';
@@ -7,10 +7,12 @@ import { logoutUser } from '../../store/action';
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(getUserStatus);
   const dispatch = useAppDispatch();
-  const logoutClick = (event: Event) => {
+  const navigate = useNavigate();
+  const logoutClick = () => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
-      event.preventDefault();
       dispatch(logoutUser());
+    } else {
+      navigate(AppRoute.Login);
     }
   };
   return (
@@ -41,13 +43,13 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <div className="header__side-nav">
-          <Link className="btn btn--accent header__side-item" to={AppRoute.Login} onClick={() => logoutClick}>
+          <button className="btn btn--accent header__side-item" onClick={logoutClick}>
             {
               (authorizationStatus === AuthorizationStatus.Auth)
                 ? 'Выйти'
                 : 'Войти'
             }
-          </Link>
+          </button>
           <a
             className="link header__side-item header__phone-link"
             href="tel:88003335599"

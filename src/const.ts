@@ -22,3 +22,19 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export enum Genre {
+  All = 'all',
+  Horror = 'horror',
+  Mystic = 'mystic',
+  Detective = 'detective',
+  Adventures = 'adventures',
+  SciFi = 'sci-fi',
+}
+
+export enum Level {
+  Any = 'any',
+  Easy = 'easy',
+  Medium = 'medium',
+  Hard = 'hard',
+}
