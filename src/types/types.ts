@@ -25,7 +25,7 @@ export type BookingInfo = {
   id: string;
   location: {
     address: string;
-    coords: [number];
+    coords: [number, number];
   };
   slots: {
     today: [{
@@ -59,7 +59,7 @@ export type Booking = {
   id: string;
   location: {
     address: string;
-    coords: [number];
+    coords: [number, number];
   };
   quest: {
     id: string;

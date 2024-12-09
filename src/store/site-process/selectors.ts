@@ -5,3 +5,4 @@ export const getGenre = ({ [StoreSlice.SiteProcess]: SITE_PROCESS }: State): Gen
 
 export const getLevel = ({ [StoreSlice.SiteProcess]: SITE_PROCESS }: State): Level => SITE_PROCESS.level;
 
+export const getBookingId = ({ [StoreSlice.SiteProcess]: SITE_PROCESS }: State): string => SITE_PROCESS.bookingId;

@@ -1,4 +1,4 @@
-import { Quest, QuestId, User } from './types';
+import { Booking, BookingInfo, Quest, QuestId, User } from './types';
 import store from '../store';
 import { AuthorizationStatus, Genre, Level } from '../const';
 
@@ -7,11 +7,16 @@ export type SiteData = {
   isQuestsLoading: boolean;
   quest: QuestId | null;
   isQuestLoading: boolean;
+  booking: BookingInfo[];
+  isBookingLoading: boolean;
+  myBookings: Booking[];
+  isMyBookingsLoading: boolean;
 }
 
 export type SiteProcess = {
   genre: Genre;
   level: Level;
+  bookingId: string;
 }
 
 export type UserProcess = {

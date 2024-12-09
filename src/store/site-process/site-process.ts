@@ -5,6 +5,7 @@ import { SiteProcess } from '../../types/state';
 const initialState: SiteProcess = {
   genre: Genre.All,
   level: Level.Any,
+  bookingId: '',
 };
 
 export const siteProcess = createSlice({
@@ -17,7 +18,10 @@ export const siteProcess = createSlice({
     setLevel: (state, action: PayloadAction<Level>) => {
       state.level = action.payload;
     },
+    setBookingId: (state, action: PayloadAction<string>) => {
+      state.bookingId = action.payload;
+    },
   },
 });
 
-export const { setGenre, setLevel } = siteProcess.actions;
+export const { setGenre, setLevel, setBookingId } = siteProcess.actions;

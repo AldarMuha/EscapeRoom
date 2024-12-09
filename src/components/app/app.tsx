@@ -34,7 +34,7 @@ function App(): JSX.Element {
           }
         />
         <Route
-          path={'quest/:id/booking'}
+          path={'/quest/:id/booking'}
           element={
             <PrivateRoute>
               <BookingPage />

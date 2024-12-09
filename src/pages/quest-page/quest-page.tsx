@@ -1,21 +1,27 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getIsQuestLoading, getQuest } from '../../store/site-data/selectors';
 import { useEffect } from 'react';
-import { fetchQuest } from '../../store/action';
+import { fetchBooking, fetchQuest } from '../../store/action';
 import Spinner from '../../components/spinner/spinner';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import { getUserStatus } from '../../store/user-process/selectors';
+import { AuthorizationStatus } from '../../const';
+//import { NewBooking } from '../../types/types';
 
 function QuestPage(): JSX.Element | null {
   const params = useParams();
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getUserStatus);
   const quest = useAppSelector(getQuest);
   const isQuestLoading = useAppSelector(getIsQuestLoading);
+  //const bookingInfo = useAppSelector(getBooking);
   useEffect(() => {
     const { id } = params;
     if (id) {
       dispatch(fetchQuest(id));
+      dispatch(fetchBooking(id));
     }
   }, [params, dispatch]);
   if (!quest) {
@@ -24,6 +30,24 @@ function QuestPage(): JSX.Element | null {
   if (isQuestLoading) {
     return <Spinner />;
   }
+  /*
+  const data: NewBooking = {
+    id: quest.id,
+    date: 'today',
+    time: '16:00',
+    contactPerson: 'Ilmur',
+    phone: '112',
+    withChildren: true,
+    peopleCount: 3,
+    placeId: 'f9666bea-249f-479f-9f15-f57fc878158a',
+  };
+  const buttonClickHandler = () => {
+    if (bookingInfo !== null) {
+      console.log(bookingInfo);
+    }
+    dispatch(postBooking(data));
+  };
+  */
   return (
     <>
       <Header />
@@ -67,12 +91,11 @@ function QuestPage(): JSX.Element | null {
             <p className="quest-page__description">
               {quest.description}
             </p>
-            <a
-              className="btn btn--accent btn--cta quest-page__btn"
-              href="booking.html"
-            >
-              Забронировать
-            </a>
+            {
+              (authorizationStatus === AuthorizationStatus.Auth)
+                ? <Link className="btn btn--accent btn--cta quest-page__btn" to={`/quest/:${quest.id}/booking`}>Забронировать</Link>
+                : ''
+            }
           </div>
         </div>
       </main>

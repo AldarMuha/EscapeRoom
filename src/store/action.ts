@@ -48,12 +48,12 @@ export const fetchQuest = createAsyncThunk<QuestId, Quest['id'], { extra: Extra 
   }
 );
 
-export const fetchBooking = createAsyncThunk<BookingInfo, Quest['id'], { extra: Extra }>(
+export const fetchBooking = createAsyncThunk<BookingInfo[], Quest['id'], { extra: Extra }>(
   Action.FETCH_BOOKING,
   async (id, { extra }) => {
     const { api, history } = extra;
     try {
-      const { data } = await api.get<BookingInfo>(`quest/${id}/booking`);
+      const { data } = await api.get<BookingInfo[]>(`quest/${id}/booking`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;

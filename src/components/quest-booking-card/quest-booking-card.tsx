@@ -1,15 +1,17 @@
-function QuestBookingCard(): JSX.Element {
+import { Link } from 'react-router-dom';
+import { Booking } from '../../types/types';
+
+function QuestBookingCard({ date, time, location, peopleCount, quest }: Booking): JSX.Element {
   return (
     <div className="quest-card">
       <div className="quest-card__img">
         <picture>
           <source
             type="image/webp"
-            srcSet="img/content/maniac/maniac-size-s.webp, img/content/maniac/maniac-size-s@2x.webp 2x"
+            srcSet={quest.previewImgWebp}
           />
           <img
-            src="img/content/maniac/maniac-size-s.jpg"
-            srcSet="img/content/maniac/maniac-size-s@2x.jpg 2x"
+            src={quest.previewImg}
             width={344}
             height={232}
             alt="Мужчина в маске в тёмном переходе."
@@ -18,13 +20,11 @@ function QuestBookingCard(): JSX.Element {
       </div>
       <div className="quest-card__content">
         <div className="quest-card__info-wrapper">
-          <a className="quest-card__link" href="quest.html">
-            Маньяк
-          </a>
+          <Link className="quest-card__link" to={`quest/${quest.id}`}>
+            {quest.title}
+          </Link>
           <span className="quest-card__info">
-            [сегодня,&nbsp;17:00. наб. реки Карповки&nbsp;5, лит&nbsp;П
-            <br />
-            м. Петроградская]
+            [{date}, {time} {location.address}]
           </span>
         </div>
         <ul className="tags quest-card__tags">
@@ -32,13 +32,13 @@ function QuestBookingCard(): JSX.Element {
             <svg width={11} height={14} aria-hidden="true">
               <use xlinkHref="#icon-person" />
             </svg>
-            6&nbsp;чел
+            {peopleCount} чел
           </li>
           <li className="tags__item">
             <svg width={14} height={14} aria-hidden="true">
               <use xlinkHref="#icon-level" />
             </svg>
-            Средний
+            {quest.level}
           </li>
         </ul>
         <button

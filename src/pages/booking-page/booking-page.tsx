@@ -1,15 +1,59 @@
+import { ChangeEvent, FormEvent, useState } from 'react';
+import BookingFormDate from '../../components/booking-form-date/booking-form-date';
+import Map from '../../components/map/map';
+import Spinner from '../../components/spinner/spinner';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getBooking, getIsBookingLoading, getQuest } from '../../store/site-data/selectors';
+import { getBookingId } from '../../store/site-process/selectors';
+import { NewBooking } from '../../types/types';
+import { postBooking } from '../../store/action';
+
 function BookingPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const [withChildren, setWithChildren] = useState<boolean>(false);
+  const [personCount, setPersonCount] = useState<number>(0);
+  const onWithChildrenChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setWithChildren(e.target.checked);
+  };
+  const onPersonCountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPersonCount(Number(e.target.value));
+  };
+  const quest = useAppSelector(getQuest);
+  const bookingInfo = useAppSelector(getBooking);
+  const bookingId = useAppSelector(getBookingId);
+  const isBookingLoading = useAppSelector(getIsBookingLoading);
+  let activeBooking = bookingInfo.find((booking) => booking.id === bookingId);
+  if (activeBooking === undefined) {
+    activeBooking = bookingInfo[0];
+  }
+  const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    if (quest !== null) {
+      const data: NewBooking = {
+        id: quest?.id,
+        date: 'today',
+        time: formData.get('date') as string,
+        contactPerson: formData.get('name') as string,
+        phone: formData.get('tel') as string,
+        withChildren: withChildren,
+        peopleCount: personCount,
+        placeId: activeBooking.id,
+      };
+      dispatch(postBooking(data));
+    }
+  };
   return (
     <main className="page-content decorated-page">
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source
             type="image/webp"
-            srcSet="img/content/maniac/maniac-bg-size-m.webp, img/content/maniac/maniac-bg-size-m@2x.webp 2x"
+            srcSet={quest?.previewImgWebp}
           />
           <img
-            src="img/content/maniac/maniac-bg-size-m.jpg"
-            srcSet="img/content/maniac/maniac-bg-size-m@2x.jpg 2x"
+            src={quest?.previewImg}
             width={1366}
             height={1959}
             alt=""
@@ -22,139 +66,45 @@ function BookingPage(): JSX.Element {
             Бронирование квеста
           </h1>
           <p className="title title--size-m title--uppercase page-content__title">
-            Маньяк
+            {quest?.title}
           </p>
         </div>
         <div className="page-content__item">
           <div className="booking-map">
             <div className="map">
-              <div className="map__container" />
+              {(!isBookingLoading)
+                ? <Map bookings={bookingInfo} />
+                : <Spinner />}
             </div>
             <p className="booking-map__address">
-              Вы&nbsp;выбрали: наб. реки Карповки&nbsp;5, лит&nbsp;П, м.
-              Петроградская
+              {activeBooking.location.address}
             </p>
           </div>
         </div>
         <form
           className="booking-form"
-          action="https://echo.htmlacademy.ru/"
-          method="post"
+          onSubmit={onFormSubmit}
         >
           <fieldset className="booking-form__section">
             <legend className="visually-hidden">Выбор даты и времени</legend>
             <fieldset className="booking-form__date-section">
               <legend className="booking-form__date-title">Сегодня</legend>
               <div className="booking-form__date-inner-wrapper">
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today9h45m"
-                    name="date"
-                    required
-                    defaultValue="today9h45m"
-                  />
-                  <span className="custom-radio__label">9:45</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today15h00m"
-                    name="date"
-                    defaultChecked
-                    required
-                    defaultValue="today15h00m"
-                  />
-                  <span className="custom-radio__label">15:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today17h30m"
-                    name="date"
-                    required
-                    defaultValue="today17h30m"
-                  />
-                  <span className="custom-radio__label">17:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today19h30m"
-                    name="date"
-                    required
-                    defaultValue="today19h30m"
-                    disabled
-                  />
-                  <span className="custom-radio__label">19:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="today21h30m"
-                    name="date"
-                    required
-                    defaultValue="today21h30m"
-                  />
-                  <span className="custom-radio__label">21:30</span>
-                </label>
+                {
+                  activeBooking.slots.today.map((booking) => (
+                    <BookingFormDate key={booking.time} {...booking} />
+                  ))
+                }
               </div>
             </fieldset>
             <fieldset className="booking-form__date-section">
               <legend className="booking-form__date-title">Завтра</legend>
               <div className="booking-form__date-inner-wrapper">
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow11h00m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow11h00m"
-                  />
-                  <span className="custom-radio__label">11:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow15h00m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow15h00m"
-                    disabled
-                  />
-                  <span className="custom-radio__label">15:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow17h30m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow17h30m"
-                    disabled
-                  />
-                  <span className="custom-radio__label">17:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow19h45m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow19h45m"
-                  />
-                  <span className="custom-radio__label">19:45</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input
-                    type="radio"
-                    id="tomorrow21h30m"
-                    name="date"
-                    required
-                    defaultValue="tomorrow21h30m"
-                  />
-                  <span className="custom-radio__label">21:30</span>
-                </label>
+                {
+                  activeBooking.slots.tomorrow.map((booking) => (
+                    <BookingFormDate key={booking.time} {...booking} />
+                  ))
+                }
               </div>
             </fieldset>
           </fieldset>
@@ -196,6 +146,7 @@ function BookingPage(): JSX.Element {
                 name="person"
                 placeholder="Количество участников"
                 required
+                onChange={onPersonCountChange}
               />
             </div>
             <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
@@ -203,7 +154,7 @@ function BookingPage(): JSX.Element {
                 type="checkbox"
                 id="children"
                 name="children"
-                defaultChecked
+                onChange={onWithChildrenChange}
               />
               <span className="custom-checkbox__icon">
                 <svg width={20} height={17} aria-hidden="true">
