@@ -8,6 +8,7 @@ import LoginPage from '../../pages/login-page/login-page';
 import QuestPage from '../../pages/quest-page/quest-page';
 import PrivateRoute from '../private-route/private-route';
 import BookingPage from '../../pages/booking-page/booking-page';
+import NotFound from '../../pages/not-found/not-found';
 
 function App(): JSX.Element {
   return (
@@ -44,6 +45,9 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.Login}
           element={<LoginPage />}
+        />
+        <Route path="*"
+          element={<NotFound />}
         />
       </Routes>
     </HistoryRouter>

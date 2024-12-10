@@ -30,7 +30,7 @@ function BookingPage(): JSX.Element {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    if (quest !== null) {
+    if (quest !== null && activeBooking !== undefined) {
       const data: NewBooking = {
         id: quest?.id,
         date: 'today',

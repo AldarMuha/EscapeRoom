@@ -1,3 +1,4 @@
+import ContactsMap from '../../components/contacts-map/contacts-map';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 
@@ -64,7 +65,7 @@ function ContactsPage(): JSX.Element {
             </dl>
             <div className="contacts__map">
               <div className="map">
-                <div className="map__container" />
+                <ContactsMap />
               </div>
             </div>
           </div>
