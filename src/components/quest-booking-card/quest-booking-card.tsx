@@ -1,7 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Booking } from '../../types/types';
+import { useAppDispatch } from '../../hooks';
+import { deleteReservation, fetchReservation } from '../../store/action';
 
-function QuestBookingCard({ date, time, location, peopleCount, quest }: Booking): JSX.Element {
+function QuestBookingCard({ id, date, time, location, peopleCount, quest }: Booking): JSX.Element {
+  const dispatch = useAppDispatch();
+  const onDeleteButton = () => {
+    dispatch(deleteReservation(id));
+    dispatch(fetchReservation());
+  };
   return (
     <div className="quest-card">
       <div className="quest-card__img">
@@ -44,6 +51,7 @@ function QuestBookingCard({ date, time, location, peopleCount, quest }: Booking)
         <button
           className="btn btn--accent btn--secondary quest-card__btn"
           type="button"
+          onClick={onDeleteButton}
         >
           Отменить
         </button>

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { createApi } from '../services/api';
 import { rootReduser } from './root-reduser';
 import history from '../history';
-import { fetchQuests } from './action';
+import { fetchQuests, fetchReservation } from './action';
 
 const api = createApi();
 const store = configureStore({
@@ -19,5 +19,6 @@ const store = configureStore({
 });
 
 store.dispatch(fetchQuests());
+store.dispatch(fetchReservation());
 
 export default store;

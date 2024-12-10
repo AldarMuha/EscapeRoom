@@ -1,19 +1,13 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
-import useMap from '../../hooks/use-map';
+import { useMap } from '../../hooks/use-map';
 import 'leaflet/dist/leaflet.css';
 import { BookingInfo } from '../../types/types';
 import { useAppDispatch } from '../../hooks';
 import { setBookingId } from '../../store/site-process/site-process';
 
 const URL_MARKER_DEFAULT = 'img/svg/pin-default.svg';
-/*
-const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
-});
-*/
+
 type MapProps = {
   bookings: BookingInfo[];
 };
