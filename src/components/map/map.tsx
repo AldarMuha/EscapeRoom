@@ -6,7 +6,7 @@ import { BookingInfo } from '../../types/types';
 import { useAppDispatch } from '../../hooks';
 import { setBookingId } from '../../store/site-process/site-process';
 
-const URL_MARKER_DEFAULT = 'img/svg/pin-default.svg';
+const URL_MARKER_DEFAULT = '/img/svg/pin-default.svg';
 
 type MapProps = {
   bookings: BookingInfo[];

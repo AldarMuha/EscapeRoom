@@ -3,7 +3,7 @@ import { Marker, icon } from 'leaflet';
 import { useMap } from '../../hooks/use-map';
 import 'leaflet/dist/leaflet.css';
 
-const URL_MARKER_DEFAULT = 'img/svg/pin-default.svg';
+const URL_MARKER_DEFAULT = '/img/svg/pin-default.svg';
 
 function ContactsMap(): JSX.Element {
   const mapRef = useRef(null);
